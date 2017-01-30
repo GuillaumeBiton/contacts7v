@@ -19,6 +19,9 @@
     f7-view(main, navbar-through, :dynamic-navbar='true')
       f7-navbar
         f7-nav-center(sliding) Contacts
+        f7-nav-right
+          f7-link(@click='openPrompt')
+            f7-icon(icon="icon-plus") +
       f7-pages
         f7-page(name='index')
           f7-list(contacts)
@@ -84,6 +87,14 @@ export default {
         this.splitView = true
         this.linkView = '.view-detail'
       }
+    },
+    openPrompt: function () {
+      var self = this
+      self.$f7.prompt('Your name please!', 'Prompt Title', function (value) {
+        var group = value.charAt(0).toUpperCase()
+        if (!self.contacts[group]) self.contacts[group] = []
+        self.contacts[group].push(value)
+      })
     }
   },
   created () {
