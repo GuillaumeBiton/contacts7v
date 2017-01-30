@@ -24,7 +24,7 @@
           f7-list(contacts)
             f7-list-group(v-for='(group, key) in contacts')
               f7-list-item(:title='key', group-title)
-              f7-list-item(v-for='name in group', :title='name', @click='selectContact(name)', link='/contact/', :link-view='linkView')
+              f7-list-item(v-for='name in group', :title='name', :link='"/contact/" + name + "/"', :link-view='linkView')
           
     // Main View
     f7-view(navbar-through, :animatePages='!splitView').view-detail
@@ -71,7 +71,6 @@ export default {
           'Vladimir'
         ]
       },
-      contact: null,
       splitView: false,
       linkView: ''
     }
@@ -108,6 +107,6 @@ export default {
     .view-detail
       width: calc(100% - #{$panel-width})
     
-    .navbar .navbar-inner .left
+    .view-detail .navbar .navbar-inner .back
       display: none
 </style>
