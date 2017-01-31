@@ -2,26 +2,13 @@
 #app
   // Status bar overlay for fullscreen mode
   f7-statusbar
-
-  // Right panel with cover effect
-  f7-panel(right, reveal)
-    f7-block
-      p Right panel content goes here
-      
-  // Left panel with cover effect
-  f7-panel(left, reveal)
-    f7-block
-      p Left panel content goes here
-      
+  
   // Views
   f7-views
     // Main View
     f7-view(main, navbar-through, :dynamic-navbar='true')
       f7-navbar
         f7-nav-center(sliding) Contacts
-        f7-nav-right
-          f7-link(@click='openPrompt')
-            f7-icon(icon="icon-plus") +
       f7-pages
         f7-page(name='index')
           f7-list(contacts)
@@ -46,9 +33,7 @@ export default {
       contacts: [],
       splitView: false,
       linkView: '',
-      options: {
-        propertyToIndex: 'login'
-      }
+      propertyToIndex: 'login'
     }
   },
   methods: {
@@ -60,12 +45,6 @@ export default {
         this.splitView = true
         this.linkView = '.view-detail'
       }
-    },
-    openPrompt () {
-      var self = this
-      self.$f7.prompt('Your name please!', 'New contact', function (value) {
-        self.contacts.push({'login': value})
-      })
     },
     groupList (list, propertyToIndex, filter) {
       var data = {}
@@ -86,8 +65,8 @@ export default {
       // sorting array
       if (self.contacts.length > 1) {
         self.contacts.sort((a, b) => {
-          a = a[self.options.propertyToIndex].toLowerCase()
-          b = b[self.options.propertyToIndex].toLowerCase()
+          a = a[self.propertyToIndex].toLowerCase()
+          b = b[self.propertyToIndex].toLowerCase()
           return ((a > b) - (b > a))
         })
       }
@@ -96,8 +75,7 @@ export default {
   watch: {
     contacts () {
       var self = this
-      // generate group list
-      self.groupedContacts = self.groupList(self.contacts, self.options.propertyToIndex)
+      self.groupedContacts = self.groupList(self.contacts, self.propertyToIndex)
     }
   }
 }
