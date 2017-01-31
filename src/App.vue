@@ -111,7 +111,7 @@ export default {
   .view-detail
     display: none
   
-  @media('min-width: 769px')
+  @media('min-width: 768px')
     .view-main
       float: left
       width: $panel-width
