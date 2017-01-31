@@ -17,7 +17,7 @@
               f7-list-item(v-for='contact in contacts', :title='contact.login', :link='"/contact/" + contact.id + "/"', :link-view='linkView')
           
     // Detail View
-    f7-view(navbar-through, :animatePages='!splitView').view-detail
+    f7-view(navbar-through, :animatePages='!splitView', v-show='splitView').view-detail
       // Pages
       f7-pages
         // Page, data-page contains page name
@@ -85,9 +85,6 @@ export default {
 <style src='framework7/dist/css/framework7.ios.colors.css'></style>
 <style lang="sass?indentedSyntax">
   $panel-width: 320px
-
-  .view-detail
-    display: none
   
   @media('min-width: 768px')
     .view-main
