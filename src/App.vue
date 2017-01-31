@@ -63,7 +63,7 @@ export default {
     },
     openPrompt () {
       var self = this
-      self.$f7.prompt('Your name please!', 'Prompt Title', function (value) {
+      self.$f7.prompt('Your name please!', 'New contact', function (value) {
         self.contacts.push({'fullname': value})
         // sorting array
         if (self.contacts.length > 1) {
