@@ -3,11 +3,17 @@ f7-page(name="about")
   f7-navbar(back-link="Back")
   .contact-header
     img(src='http://placehold.it/90')
-    | {{$route.params.name}}
+    | {{contact}}
 </template>
 
 <script>
-export default {}
+export default {
+  data () {
+    return {
+      contact: this.$route.params.name
+    }
+  }
+}
 </script>
 
 <style lang='sass?indentedSyntax'>

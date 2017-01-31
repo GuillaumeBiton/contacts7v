@@ -25,9 +25,9 @@
       f7-pages
         f7-page(name='index')
           f7-list(contacts)
-            f7-list-group(v-for='(group, key, index) in contacts', :key='index')
+            f7-list-group(v-for='(contacts, key) in groupedContacts')
               f7-list-item(:title='key', group-title)
-              f7-list-item(v-for='name in group', :title='name', :link='"/contact/" + name + "/"', :link-view='linkView')
+              f7-list-item(v-for='contact in contacts', :title='contact.fullname', :link='"/contact/" + contact.fullname + "/"', :link-view='linkView')
           
     // Main View
     f7-view(navbar-through, :animatePages='!splitView').view-detail
@@ -42,40 +42,13 @@ export default {
   name: 'app',
   data () {
     return {
-      contacts: {
-        'A': [
-          'Aaron',
-          'Abbie',
-          'Adam',
-          'Adele',
-          'Agatha',
-          'Agnes',
-          'Albert',
-          'Alexander'
-        ],
-        'B': [
-          'Bailey',
-          'Barclay',
-          'Bartolo',
-          'Bellamy',
-          'Belle',
-          'Benjamin'
-        ],
-        'C': [
-          'Caiden',
-          'Calvin',
-          'Candy',
-          'Carl',
-          'Cherilyn',
-          'Chester',
-          'Chloe'
-        ],
-        'V': [
-          'Vladimir'
-        ]
-      },
+      groupedContacts: {},
+      contacts: [],
       splitView: false,
-      linkView: ''
+      linkView: '',
+      options: {
+        propertyToIndex: 'fullname'
+      }
     }
   },
   methods: {
@@ -88,15 +61,30 @@ export default {
         this.linkView = '.view-detail'
       }
     },
-    openPrompt: function () {
+    openPrompt () {
       var self = this
       self.$f7.prompt('Your name please!', 'Prompt Title', function (value) {
-        var group = value.charAt(0).toUpperCase()
-        // needed becuase we are adding object keys
-        // see: http://rc.vuejs.org/guide/reactivity.html#Change-Detection-Caveats
-        if (!self.contacts[group]) self.$set(self.contacts, group, [])
-        self.contacts[group].push(value)
+        self.contacts.push({'fullname': value})
+        // sorting array
+        if (self.contacts.length > 1) {
+          self.contacts.sort((a, b) => {
+            a = a[self.options.propertyToIndex].toLowerCase()
+            b = b[self.options.propertyToIndex].toLowerCase()
+            return ((a > b) - (b > a))
+          })
+        }
+        // generate group list
+        self.groupedContacts = self.groupList(self.contacts, self.options.propertyToIndex)
       })
+    },
+    groupList (list, propertyToIndex, filter) {
+      var data = {}
+      filter = filter || function (item) { return item.charAt(0).toUpperCase() }
+      list.forEach(function (item) {
+        data[filter(item[propertyToIndex])] = data[filter(item[propertyToIndex])] || []
+        data[filter(item[propertyToIndex])].push(item)
+      })
+      return data
     }
   },
   created () {
