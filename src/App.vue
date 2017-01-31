@@ -15,7 +15,7 @@
       
   // Views
   f7-views
-    // Left View
+    // Main View
     f7-view(main, navbar-through, :dynamic-navbar='true')
       f7-navbar
         f7-nav-center(sliding) Contacts
@@ -29,7 +29,7 @@
               f7-list-item(:title='key', group-title)
               f7-list-item(v-for='contact in contacts', :title='contact.login', :link='"/contact/" + contact.login + "/"', :link-view='linkView')
           
-    // Main View
+    // Detail View
     f7-view(navbar-through, :animatePages='!splitView').view-detail
       // Pages
       f7-pages

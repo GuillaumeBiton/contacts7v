@@ -1,5 +1,5 @@
 <template lang='pug'>
-f7-page(name="about")
+f7-page(name="detail")
   f7-navbar(back-link="Back", sliding)
   .contact-header
     img(src='http://placehold.it/90')
@@ -18,7 +18,7 @@ export default {
 
 <style lang='sass?indentedSyntax'>
   .contact-header
-    height: 175px
+    height: 176px
     z-index: 10
     box-shadow: 0px 2px 3px rgba(0,0,0,0.1)
     box-sizing: border-box
@@ -26,8 +26,17 @@ export default {
     background: #fff
     text-align: center
     font-size: +2em
+  
   .contact-header img
     display: block
     margin: 0 auto
     border-radius: 90px
+  
+  .view[data-page='detail'] .page-content
+    padding-top: 0
+
+  .view[data-page='detail'] .navbar,
+  .view[data-page='detail'] .navbar:after,
+    background: none
+
 </style>
