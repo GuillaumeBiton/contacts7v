@@ -64,7 +64,7 @@ export default {
     openPrompt () {
       var self = this
       self.$f7.prompt('Your name please!', 'New contact', function (value) {
-        self.contacts.push({'fullname': value})
+        self.contacts.push({'login': value})
       })
     },
     groupList (list, propertyToIndex, filter) {
