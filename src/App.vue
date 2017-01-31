@@ -107,11 +107,14 @@ export default {
       float: left
       width: $panel-width
       border-right: 1px solid #b2b2b2
-
+    
     .view-detail
       display: block
       width: calc(100% - #{$panel-width})
     
     .view-detail .navbar .navbar-inner .back
       display: none
+  
+    .item-link .item-content .item-inner
+      background-image: none
 </style>
