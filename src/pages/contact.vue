@@ -1,6 +1,6 @@
 <template lang='pug'>
 f7-page(name="about")
-  f7-navbar(back-link="Back")
+  f7-navbar(back-link="Back", sliding)
   .contact-header
     img(src='http://placehold.it/90')
     | {{contact}}
