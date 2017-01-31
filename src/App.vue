@@ -25,7 +25,7 @@
       f7-pages
         f7-page(name='index')
           f7-list(contacts)
-            f7-list-group(v-for='(group, key) in contacts')
+            f7-list-group(v-for='(group, key, index) in contacts', :key='index')
               f7-list-item(:title='key', group-title)
               f7-list-item(v-for='name in group', :title='name', :link='"/contact/" + name + "/"', :link-view='linkView')
           
@@ -92,7 +92,9 @@ export default {
       var self = this
       self.$f7.prompt('Your name please!', 'Prompt Title', function (value) {
         var group = value.charAt(0).toUpperCase()
-        if (!self.contacts[group]) self.contacts[group] = []
+        // needed becuase we are adding object keys
+        // see: http://rc.vuejs.org/guide/reactivity.html#Change-Detection-Caveats
+        if (!self.contacts[group]) self.$set(self.contacts, group, [])
         self.contacts[group].push(value)
       })
     }
