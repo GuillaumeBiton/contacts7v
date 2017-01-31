@@ -27,7 +27,7 @@
           f7-list(contacts)
             f7-list-group(v-for='(contacts, key) in groupedContacts')
               f7-list-item(:title='key', group-title)
-              f7-list-item(v-for='contact in contacts', :title='contact.fullname', :link='"/contact/" + contact.fullname + "/"', :link-view='linkView')
+              f7-list-item(v-for='contact in contacts', :title='contact.login', :link='"/contact/" + contact.login + "/"', :link-view='linkView')
           
     // Main View
     f7-view(navbar-through, :animatePages='!splitView').view-detail
@@ -47,7 +47,7 @@ export default {
       splitView: false,
       linkView: '',
       options: {
-        propertyToIndex: 'fullname'
+        propertyToIndex: 'login'
       }
     }
   },
@@ -65,16 +65,6 @@ export default {
       var self = this
       self.$f7.prompt('Your name please!', 'New contact', function (value) {
         self.contacts.push({'fullname': value})
-        // sorting array
-        if (self.contacts.length > 1) {
-          self.contacts.sort((a, b) => {
-            a = a[self.options.propertyToIndex].toLowerCase()
-            b = b[self.options.propertyToIndex].toLowerCase()
-            return ((a > b) - (b > a))
-          })
-        }
-        // generate group list
-        self.groupedContacts = self.groupList(self.contacts, self.options.propertyToIndex)
       })
     },
     groupList (list, propertyToIndex, filter) {
@@ -88,8 +78,27 @@ export default {
     }
   },
   created () {
+    var self = this
     this.checkSplitView()
     this.$$(window).resize(this.checkSplitView)
+    this.$$.get('https://api.github.com/repos/nolimits4web/framework7/contributors', (data) => {
+      self.contacts = JSON.parse(data)
+      // sorting array
+      if (self.contacts.length > 1) {
+        self.contacts.sort((a, b) => {
+          a = a[self.options.propertyToIndex].toLowerCase()
+          b = b[self.options.propertyToIndex].toLowerCase()
+          return ((a > b) - (b > a))
+        })
+      }
+    })
+  },
+  watch: {
+    contacts () {
+      var self = this
+      // generate group list
+      self.groupedContacts = self.groupList(self.contacts, self.options.propertyToIndex)
+    }
   }
 }
 </script>
