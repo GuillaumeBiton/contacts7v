@@ -111,6 +111,9 @@ export default {
 <style lang="sass?indentedSyntax">
   $panel-width: 320px
 
+  .view-detail
+    display: none
+  
   @media('min-width: 769px')
     .view-main
       float: left
@@ -118,6 +121,7 @@ export default {
       border-right: 1px solid #b2b2b2
 
     .view-detail
+      display: block
       width: calc(100% - #{$panel-width})
     
     .view-detail .navbar .navbar-inner .back
