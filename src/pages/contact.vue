@@ -2,16 +2,21 @@
 f7-page(name="detail")
   f7-navbar(back-link="Back", sliding)
   .contact-header
-    img(src='http://placehold.it/90')
-    | {{contact}}
+    img(:data-src='contact.avatar_url').lazy.lazy-fadein
+    | {{contact.login}}
 </template>
 
 <script>
 export default {
   data () {
     return {
-      contact: this.$route.params.name
+      contact: {}
     }
+  },
+  created () {
+    this.contact = this.$root.contacts.find((contact) => {
+      return contact.id.toString() === this.$route.params.id
+    })
   }
 }
 </script>
@@ -31,6 +36,7 @@ export default {
     display: block
     margin: 0 auto
     border-radius: 90px
+    width: 90px
   
   .view[data-page='detail'] .page-content
     padding-top: 0

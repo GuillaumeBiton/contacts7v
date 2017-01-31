@@ -15,7 +15,7 @@ new Vue({
     animateNavBackIcon: true,
     routes: [
       {
-        path: '/contact/:name/',
+        path: '/contact/:id/',
         component: ContactPage
       }
     ]

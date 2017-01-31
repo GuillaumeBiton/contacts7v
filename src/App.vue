@@ -27,7 +27,7 @@
           f7-list(contacts)
             f7-list-group(v-for='(contacts, key) in groupedContacts')
               f7-list-item(:title='key', group-title)
-              f7-list-item(v-for='contact in contacts', :title='contact.login', :link='"/contact/" + contact.login + "/"', :link-view='linkView')
+              f7-list-item(v-for='contact in contacts', :title='contact.login', :link='"/contact/" + contact.id + "/"', :link-view='linkView')
           
     // Detail View
     f7-view(navbar-through, :animatePages='!splitView').view-detail
@@ -82,7 +82,7 @@ export default {
     this.checkSplitView()
     this.$$(window).resize(this.checkSplitView)
     this.$$.get('https://api.github.com/repos/nolimits4web/framework7/contributors', (data) => {
-      self.contacts = JSON.parse(data)
+      self.contacts = this.$root.contacts = JSON.parse(data)
       // sorting array
       if (self.contacts.length > 1) {
         self.contacts.sort((a, b) => {
