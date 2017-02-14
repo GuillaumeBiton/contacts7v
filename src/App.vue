@@ -14,10 +14,10 @@
           f7-list(contacts)
             f7-list-group(v-for='(contacts, key) in groupedContacts')
               f7-list-item(:title='key', group-title)
-              f7-list-item(v-for='contact in contacts', :title='contact.login', :link='"/contact/" + contact.id + "/"', :link-view='linkView')
+              f7-list-item(v-for='contact in contacts', :title='contact.login', :link='"/contact/" + contact.id + "/"', :link-view='linksView')
           
     // Detail View
-    f7-view(navbar-through, :animatePages='!splitView', v-show='splitView').view-detail
+    f7-view(name='right', navbar-through, :animate-pages='false',v-show='splitView').view-detail
       // Pages
       f7-pages
         // Page, data-page contains page name
@@ -32,7 +32,7 @@ export default {
       groupedContacts: {},
       contacts: [],
       splitView: false,
-      linkView: '',
+      linksView: '',
       propertyToIndex: 'login'
     }
   },
@@ -40,10 +40,26 @@ export default {
     checkSplitView () {
       if (this.$$(window).width() < 767) {
         this.splitView = false
-        this.linkView = ''
+        this.linksView = ''
       } else {
         this.splitView = true
-        this.linkView = '.view-detail'
+        this.linksView = '.view-detail'
+      }
+    },
+    splitViewRouting (fromView, toView) {
+      // Check previous navigation
+      if (fromView.history.length > 1) {
+        // retrieve last navigation url
+        var lastUrl = fromView.history[fromView.history.length - 1]
+        // unload navigation from view
+        fromView.router.back({
+          animatePages: false
+        })
+        // load last url into destination view
+        toView.router.load({
+          animatePages: false,
+          url: lastUrl
+        })
       }
     },
     groupList (list, propertyToIndex, filter) {
@@ -76,6 +92,14 @@ export default {
     contacts () {
       var self = this
       self.groupedContacts = self.groupList(self.contacts, self.propertyToIndex)
+    },
+    splitView () {
+      if (typeof this.$f7 === 'undefined') return
+      if (this.splitView) {
+        this.splitViewRouting(this.$f7.mainView, this.$f7.rightView)
+      } else {
+        this.splitViewRouting(this.$f7.rightView, this.$f7.mainView)
+      }
     }
   }
 }
